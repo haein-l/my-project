@@ -15,11 +15,338 @@
 
    ===================================================================================== */
 
-   /** just so you can see the items - this will need to changed **/
-   header,
-   header svg  {
-      color: #efefef; 
-   }
-   .chevron {
-      fill: #efefef;
-   }
+:root {
+  --nav-panel: #141414;
+  --focus-dark: #E8174B;
+  --focus-light: #ffffff;
+}
+
+.main-menu > li {
+  --item-on-dark: var(--item-clr);
+  --item-chevron: var(--item-clr);
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--logo-yellow);
+  color: var(--charcoal);
+  font-weight: 700;
+  border-radius: 3px;
+  transform: translateY(-200%);
+  transition: transform var(--ease-fast);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+main:focus {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--focus-dark);
+  outline-offset: 3px;
+}
+
+header a:focus-visible,
+header button:focus-visible,
+footer a:focus-visible,
+.skip-link:focus-visible {
+  outline-color: var(--focus-light);
+}
+
+header {
+  position: relative;
+  z-index: 40;
+  color: #fff;
+}
+
+.chevron {
+  fill: none;
+  stroke: currentColor;
+  transition: transform var(--ease-medium);
+}
+
+.top-link,
+.sub-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  width: 100%;
+  text-align: left;
+}
+
+.top-link {
+  position: relative;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  transition: color var(--ease-fast);
+}
+
+.sub-link {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4375;
+  transition: background var(--ease-fast), color var(--ease-fast);
+}
+
+.sub-trigger[aria-expanded="true"] > .chevron {
+  transform: rotate(180deg);
+}
+
+.sub-trigger[aria-expanded="false"] + .sub-menu {
+  display: none;
+}
+
+.nav-toggle[aria-expanded="true"] .bar:nth-child(1) {
+  transform: translateY(12px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .bar:nth-child(3) {
+  transform: translateY(-12px) rotate(-45deg);
+}
+
+@media (max-width: 1023.98px) {
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100dvh - 4.75rem);
+    overflow-y: auto;
+    background: var(--nav-panel);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .main-nav.is-open {
+    display: block;
+  }
+
+  .main-menu > li {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .top-link {
+    min-height: 3.5625rem;
+    padding: 1rem 1.5rem;
+    color: #fff;
+  }
+
+  .top-link[aria-expanded="true"] {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .sub-menu {
+    padding-bottom: 0.5rem;
+  }
+
+  .sub-link {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .sub-menu .sub-trigger .chevron {
+    color: var(--item-clr);
+  }
+
+  .sub-menu .sub-trigger[aria-expanded="true"] {
+    min-height: 2.5rem;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .sub-menu .sub-menu {
+    padding: 0.25rem 0 0.375rem 2.5rem;
+    background:
+      linear-gradient(var(--item-clr), var(--item-clr)) 2.5rem 0.25rem / 1px calc(100% - 0.625rem) no-repeat,
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .sub-menu .sub-menu .sub-link {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .top-link:focus-visible,
+  .sub-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+  }
+
+  @media (hover: hover) {
+    .top-link:hover,
+    .sub-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+
+  /* Figma desktop order: search, then cart */
+  .search-btn {
+    order: -1;
+  }
+
+  .nav-actions {
+    gap: 0.25rem;
+  }
+
+  .main-nav {
+    flex: 1;
+  }
+
+  .main-menu {
+    display: flex;
+    justify-content: center;
+  }
+
+  .main-menu > li {
+    position: relative;
+  }
+
+  .top-link {
+    width: auto;
+    justify-content: center;
+    border-radius: 2px;
+  }
+
+  .top-link::after {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0.3125rem;
+    height: 3px;
+    background: var(--item-clr);
+    opacity: 0;
+    transition: opacity var(--ease-fast);
+  }
+
+  .top-link:focus-visible,
+  .top-link[aria-expanded="true"] {
+    color: var(--item-on-dark);
+  }
+
+  .top-link:focus-visible::after,
+  .top-link[aria-expanded="true"]::after {
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .top-link:hover {
+      color: var(--item-on-dark);
+    }
+    .top-link:hover::after {
+      opacity: 1;
+    }
+  }
+
+  .top-link:focus-visible {
+    outline-offset: 0;
+  }
+
+  .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    min-width: 15.5rem;
+    background: #fff;
+    border-top: 3px solid var(--item-clr);
+    border-radius: 3px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .sub-menu .sub-menu {
+    top: 0;
+    left: 100%;
+    min-width: 17rem;
+    border-top: 0;
+    border-left: 3px solid var(--item-clr);
+  }
+
+  .nav-tools .sub-menu .sub-menu {
+    left: auto;
+    right: 100%;
+    border-left: 0;
+    border-right: 3px solid var(--item-clr);
+  }
+
+  .sub-menu li {
+    position: relative;
+  }
+
+  .sub-link {
+    color: var(--charcoal);
+  }
+
+  .sub-menu .sub-trigger .chevron,
+  .sub-menu .sub-trigger[aria-expanded="true"] > .chevron {
+    color: var(--item-chevron);
+    transform: rotate(-90deg);
+  }
+
+  .nav-tools .sub-menu .sub-trigger .chevron,
+  .nav-tools .sub-menu .sub-trigger[aria-expanded="true"] > .chevron {
+    transform: rotate(90deg);
+  }
+
+  .sub-link:focus-visible,
+  .sub-link[aria-expanded="true"] {
+    background: var(--item-bg);
+    color: var(--item-text);
+  }
+
+  @media (hover: hover) {
+    .sub-link:hover {
+      background: var(--item-bg);
+      color: var(--item-text);
+    }
+  }
+
+  .sub-link:focus-visible {
+    outline: 2px solid var(--item-text);
+    outline-offset: -2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .bar,
+  .top-link::after {
+    background: ButtonText;
+  }
+}
+
+.cart-badge {
+  top: 5px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
+}
